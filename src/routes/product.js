@@ -1,8 +1,13 @@
-import express from "express";
-const router = express.Router();
+import mongoose from "mongoose";
 
-router.get("/", (req, res) => {
-  res.json({ message: "Products API working" });
-});
+const productSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true, trim: true },
+    description: { type: String, default: "" },
+    price: { type: Number, required: true, min: 0 },
+    offer: { type: Number, default: 0 }, // percentage off
+  },
+  { timestamps: true }
+);
 
-export default router;
+export default mongoose.model("Product", productSchema);
