@@ -8,8 +8,10 @@ import adminRoutes from "./routes/adminRoutes.js";
 
 const app = express();
 
+// Middleware FIRST
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -21,4 +23,4 @@ app.get("/", (req, res) => {
   res.send("Backend Running...");
 });
 
-export default app;   // 👈 no app.listen here
+export default app;
