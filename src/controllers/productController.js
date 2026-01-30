@@ -1,9 +1,14 @@
 import Product from "../models/Product.js";
 
-/* ---------------- GET ALL PRODUCTS (public) ---------------- */
+/* ---------------- GET ALL PRODUCTS (PUBLIC SHOP) ---------------- */
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find().lean(); // lean() for plain JS objects
+    // 👇 Only show active & published products in SHOP
+    const products = await Product.find({
+      isActive: true,
+      status: "published",
+    }).lean();
+
     res.status(200).json(products);
   } catch (err) {
     console.error("Error fetching products:", err);
@@ -11,10 +16,17 @@ export const getProducts = async (req, res) => {
   }
 };
 
-/* ---------------- ADD PRODUCT (admin) ---------------- */
+/* ---------------- ADD PRODUCT (ADMIN) ---------------- */
 export const addProduct = async (req, res) => {
   try {
-    const product = await Product.create(req.body);
+    const product = await Product.create({
+      ...req.body,
+
+      // 👇 force correct defaults (VERY IMPORTANT)
+      isActive: true,
+      status: "published",
+    });
+
     res.status(201).json({ success: true, product });
   } catch (err) {
     console.error("Error adding product:", err);
@@ -22,13 +34,16 @@ export const addProduct = async (req, res) => {
   }
 };
 
-/* ---------------- UPDATE PRODUCT (admin) ---------------- */
+/* ---------------- UPDATE PRODUCT (ADMIN) ---------------- */
 export const updateProduct = async (req, res) => {
   try {
     const updated = await Product.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true } // ✅ runValidators ensures schema validation
+      {
+        new: true,
+        runValidators: true,
+      }
     );
 
     if (!updated) {
@@ -42,7 +57,7 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-/* ---------------- DELETE PRODUCT (admin) ---------------- */
+/* ---------------- DELETE PRODUCT (ADMIN) ---------------- */
 export const deleteProduct = async (req, res) => {
   try {
     const deleted = await Product.findByIdAndDelete(req.params.id);
@@ -51,7 +66,10 @@ export const deleteProduct = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    res.status(200).json({ success: true, message: "Product deleted" });
+    res.status(200).json({
+      success: true,
+      message: "Product deleted",
+    });
   } catch (err) {
     console.error("Error deleting product:", err);
     res.status(500).json({ message: "Failed to delete product" });
