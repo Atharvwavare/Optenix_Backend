@@ -5,7 +5,7 @@ import {
   updateProduct,
   deleteProduct,
 } from "../controllers/productController.js";
-import { adminAuth } from "../middleware/AdminAuth.js";
+import { adminAuth } from "../middleware/adminAuth.js";
 
 const router = express.Router();
 
