@@ -1,4 +1,10 @@
 // src/server.js
+
+// .env file import
+import dotenv from "dotenv";
+dotenv.config();
+
+
 import express from "express";
 import cors from "cors";
 
@@ -17,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
+
 
 // Test route
 app.get("/", (req, res) => {
