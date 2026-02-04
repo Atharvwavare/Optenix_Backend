@@ -15,7 +15,17 @@ import adminRoutes from "./routes/adminRoutes.js";
 const app = express();
 
 // Middleware FIRST
-app.use(cors());
+app.use(cors({
+  origin:[
+    "https://www.optenix.in",
+    "https://optenix.in"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials:true
+}));
+app.options("*", cors());
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
