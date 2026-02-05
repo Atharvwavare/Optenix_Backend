@@ -16,13 +16,33 @@ export const getProducts = async (req, res) => {
   }
 };
 
+/* ---------------- GET SINGLE PRODUCT BY ID (PUBLIC) ---------------- */
+export const getProductById = async (req, res) => {
+  try {
+    const product = await Product.findOne({
+      _id: req.params.id,
+      isActive: true,
+      status: "published",
+    }).lean();
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json(product);
+  } catch (err) {
+    console.error("Error fetching product:", err);
+    res.status(500).json({ message: "Failed to fetch product" });
+  }
+};
+
 /* ---------------- ADD PRODUCT (ADMIN) ---------------- */
 export const addProduct = async (req, res) => {
   try {
     const product = await Product.create({
       ...req.body,
 
-      // 👇 force correct defaults (VERY IMPORTANT)
+      // 👇 enforce correct defaults
       isActive: true,
       status: "published",
     });

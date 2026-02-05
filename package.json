@@ -20,6 +20,7 @@
     "express": "^4.22.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.5",
+    "nodemailer": "^7.0.13",
     "paytmchecksum": "^1.5.1",
     "razorpay": "^2.9.6"
   },

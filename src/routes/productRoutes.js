@@ -4,6 +4,7 @@ import {
   addProduct,
   updateProduct,
   deleteProduct,
+  getProductById, // 👈 ADD THIS
 } from "../controllers/productController.js";
 import { adminAuth } from "../middleware/adminAuth.js";
 
@@ -11,6 +12,7 @@ const router = express.Router();
 
 /* ================= PUBLIC SHOP ================= */
 router.get("/", getProducts);
+router.get("/:id", getProductById); // 👈 ADD THIS
 
 /* ================= ADMIN ================= */
 router.post("/admin", adminAuth, addProduct);
