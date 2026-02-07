@@ -11,6 +11,8 @@ const ProductSchema = new mongoose.Schema(
     discount: { type: String, default: "" },
     description: { type: String, default: "" },
     specifications: { type: [String], default: [] },
+    isActive: { type: Boolean, default: true },
+    status: { type: String, default: "published" }
   },
   { timestamps: true }
 );

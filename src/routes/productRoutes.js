@@ -1,10 +1,10 @@
 import express from "express";
 import {
   getProducts,
+  getProductById,
   addProduct,
   updateProduct,
   deleteProduct,
-  getProductById, // 👈 ADD THIS
 } from "../controllers/productController.js";
 import { adminAuth } from "../middleware/adminAuth.js";
 
@@ -12,7 +12,7 @@ const router = express.Router();
 
 /* ================= PUBLIC SHOP ================= */
 router.get("/", getProducts);
-router.get("/:id", getProductById); // 👈 ADD THIS
+router.get("/:id", getProductById); 
 
 /* ================= ADMIN ================= */
 router.post("/admin", adminAuth, addProduct);
